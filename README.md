@@ -104,13 +104,13 @@ void setThyst(float Thyst);
   *@brief 获取故障队列的值.
   *@return 返回故障队列的值.
   */
-eQueueValue_t getQueueValue();
+DFRobot_LM75B::eQueueValue_t getQueueValue();
 
 /**
   *@brief 设置故障队列的值.
   *@param eQueueValue_t类型的值，代表故障队列数
   */
-void setQueueValue(eQueueValue_t value);
+void setQueueValue(DFRobot_LM75B::eQueueValue_t value);
 
 /**
   *@brief 得到芯片的工作模式的模式.
@@ -118,13 +118,13 @@ void setQueueValue(eQueueValue_t value);
   *@n 0：Normal(正常模式)
   *@n 1：interrupt(关断模式)
 */
-eShutDownMode_t getShutDownMode();
+DFRobot_LM75B::eShutDownMode_t getShutDownMode();
 
 /**
   *@brief 设置芯片的工作模式.
   *@param eQueueValue_t类型的值，代表芯片工作模式
   */
-void setShutDownMode(eShutDownMode_t ShutDownMode);
+void setShutDownMode(DFRobot_LM75B::eShutDownMode_t ShutDownMode);
 
 /**
   *@brief 得到OS引脚的active状态是高电平还是低电平.
@@ -132,13 +132,13 @@ void setShutDownMode(eShutDownMode_t ShutDownMode);
   *@n 0：LOW(active LOW)
   *@n 1：HIGH(active HIGH)
   */
-eOSPolarityMode_t getOSPolarityMode();
+DFRobot_LM75B::eOSPolarityMode_t getOSPolarityMode();
 
 /**
   *@brief 设置OS引脚的active状态是高电平还是低电平..
   *@param eOSPolarityMode_t类型的值，代表OS引脚的极性
   */
-void setOSPolarityMode(eOSPolarityMode_t polarityMode);
+void setOSPolarityMode(DFRobot_LM75B::eOSPolarityMode_t polarityMode);
 
 /**
   *@brief 得到OS引脚的工作模式.
@@ -146,13 +146,13 @@ void setOSPolarityMode(eOSPolarityMode_t polarityMode);
   *@n 0：OS comparator(比较器模式)
   *@n 1：OS interrupt(中断模式)
   */
-eOSMode_t getOSMode();
+DFRobot_LM75B::eOSMode_t getOSMode();
 
 /**
   * @brief 设置OS引脚的工作模式..
   *@param eOSMode_t类型的值，代表OS引脚的工作模式.
   */
-void setOSMode(eOSMode_t OSMode);
+void setOSMode(DFRobot_LM75B::eOSMode_t OSMode);
 ```
 
 ## Compatibility
