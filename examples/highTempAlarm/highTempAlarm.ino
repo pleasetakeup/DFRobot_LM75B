@@ -1,5 +1,5 @@
 /*!
-   @file Hightemp_alarm.ino
+   @file highTempAlarm.ino
    @brief 高温报警.
    @n 实验现象：在开始之前我们会设置阈值温度Tos和滞后温度Thyst，芯片工作状态，
    @n OS引脚输出模式，故障队列。当温度超过阈值温度Tos时串口就会有信息提示，或者也可
@@ -58,13 +58,19 @@ void setup(void) {
   /*!
     设置设置OS引脚的模式
     typedef enum {
-    eComparator = 0, //<OS口输出采用比较器模式，OS becomes active when the Temp exceeds the Tth(ots), and is reset when the Temp drops below the Thysh>
-    eInterrupt = 1 //<在此模式下，OS口输出采用中断模式,Once the OS output has been activated by crossing Tth(ots) and then reset, it can be activated again only when the Temp drops below the Thys>
+    eComparator = 0, //<OS口输出采用比较器模式，OS becomes active when the Temp exceeds the Tth(ots), and is reset 
+                       when the Temp drops below the Thysh>
+    eInterrupt = 1 //<在此模式下，OS口输出采用中断模式,Once the OS output has been activated by crossing Tth(ots) 
+                       and then reset, it can be activated again only when the Temp drops below the Thys>
     } eOSMode_t;
   */
   lm75b.setOSMode(lm75b.eComparator);
   /*!
-        设置故障队列数,Fault queue is defined as the number of faults that must occur consecutively to activate
+    只有满足故障队列数，OS才会产生中断
+    故障队列数：温度寄存器存储的温度值在每次转换完成之后，会自动与阈值温度和滞后温度相比较。
+    当选择eValue1，只需满足一次温度值大于阈值温度,若满足则OS输出为active状态；
+    当选择eValue2，需满足二次温度值大于阈值温度,若满足则OS输出为active状态。
+    以此类推。
     the OS output
     typedef enum {
     eValue1 = 1,

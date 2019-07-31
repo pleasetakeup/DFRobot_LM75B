@@ -1,4 +1,4 @@
-/*!
+    /*!
    @file DFRobot_LM75B.h
    @brief 定义DFRobot_LM75B 类的基础结构
    @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
@@ -81,7 +81,7 @@ typedef enum {
      by programming bit B1 (OS_COMP_INT) of register Conf.
   */
 typedef enum {
-  eComparator = 0x00, /**<OS口输出采用比较器模式，>**/
+  eComparator = 0x00, /**<在此模式下，OS口输出采用比较器模式，>**/
   eInterrupt = 0x01 /**<在此模式下，OS口输出采用中断模式>**/
 } eOSMode_t;
    /*!

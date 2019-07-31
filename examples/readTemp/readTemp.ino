@@ -52,12 +52,12 @@ void setup(void) {
   Serial.print("OS模式: ");
   /**
        比较器模式：此模式下，OS引脚在环境温度超过Tos设定温度时，产生低电平，然后在低于Thyst恢复高电平，然后一直循环.
-       关断模式：此模式下，OS在第一次环境温度超过Tos设定温度时被激活，然后产生一个脉冲信号，等到温度低于Thyst才会
+       中断断模式：此模式下，OS在第一次环境温度超过Tos设定温度时被激活，然后产生一个脉冲信号，等到温度低于Thyst才会
                产生下一个脉冲信号，然后一直循环
   */
   Serial.print(lm75b.getOSMode());
   Serial.println(" (0:比较器模式/1：中断模式)");
-  /*
+  /*!
       The OS output active state can be selected as HIGH or LOW by programming bit B2
       (OS_POL) of register Conf
        typedef enum {
@@ -69,7 +69,7 @@ void setup(void) {
   Serial.print("OS极性: ");
   Serial.print(lm75b.getOSPolarityMode());
   Serial.println(" (0:active状态为低电平/1：active状态为高电平)");
-  /*
+  /*!
     只有满足故障队列数，OS才会产生中断
     故障队列数：温度寄存器存储的温度值在每次转换完成之后，会自动与阈值温度和滞后温度相比较。
     当选择eValue1，只需满足一次温度值大于阈值温度。若满足则OS输出为active状态；

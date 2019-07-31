@@ -54,7 +54,7 @@ void setup(void) {
 }
 
 void loop(void) {
-  /*
+  /*!
          默认设置 device operation mode selection：(0*)normal
                   OS operation mode selection    ：(0*)OS comparator
                   OS polarity selection          ：(0*)OS active LOW
