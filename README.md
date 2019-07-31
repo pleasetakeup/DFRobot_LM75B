@@ -43,7 +43,7 @@ To use this library, first download the library file, paste it into the \Arduino
   *@n IIC地址由构成如下图所示
          6  5  4  3  2  1   0
          1  0  0  1  A2 A1  A0
-  *@n 地址的定义如下表所示：默认为0x48
+  *@n 地址的定义如下表所示,可以通过跳线来改变地址：默认为0x48
          1  0  0  1  | A2 A1 A0
          1  0  0  1  | 1  1  1       0x5F
          1  0  0  1  | 1  1  0       0x5E
