@@ -143,7 +143,7 @@ typedef enum {
     */
     float getTosC(void );
     /**
-       @brief 获取阈值温度.
+       @brief 获取滞后温度.
        @param 返回温度值，单位是摄氏度.
        @n 范围是 -55°C 到 +125°C.
     */
