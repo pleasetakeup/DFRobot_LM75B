@@ -31,6 +31,9 @@
 #endif
 
 /*!
+           The Configuration register (Conf) is a write/read register and contains an 8-bit
+       non-complement data byte that is used to configure the device for different operation
+       conditions.
        ------------------------------------------------------------------------------------------
        |    b7    |    b6    |    b5    |    b4    |    b3    |    b2    |    b1     |    b0    |
        ------------------------------------------------------------------------------------------
