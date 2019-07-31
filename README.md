@@ -5,7 +5,7 @@ LM75B器件通过2线的串行IIC 总线接口与控制器通信,LM75B 有3�
 LM75B 可配置成不同的工作模式。它可设置成在正常工作模式下周期性地对环境温度进行监控或进入关断模式来将器件功耗降至最低.<br>
   分辨率：0.125°C <br>
   精度  ：正负 2 °C <br>
-  功耗  :工作电流典型值为250uA，掉电模式为3.5uA<br>
+  功耗  :工作电流典型值为200uA，掉电模式为1.0uA<br>
   工作电压：2.8V～5.5V<br>
 ![正反面svg效果图](https://github.com/ouki-wang/DFRobot_Sensor/raw/master/resources/images/SEN0245svg1.png)
 
