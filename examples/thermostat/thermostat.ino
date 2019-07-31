@@ -46,7 +46,7 @@ void setup(void) {
     eValue4 = 6
     } eQueueValue_t;
   */
-  lm75b.setQueueValue(eValue4);
+  lm75b.setQueueValue(lm75b.eValue4);
 }
 
 void loop(void) {

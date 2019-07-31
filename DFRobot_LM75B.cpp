@@ -128,49 +128,49 @@ float DFRobot_LM75B::getThystC()
     return -(Thyst / 2.0);
   }
 }
-eOSPolarityMode_t DFRobot_LM75B::getOSPolarityMode() 
+DFRobot_LM75B::eOSPolarityMode_t DFRobot_LM75B::getOSPolarityMode() 
 {
   uint8_t buffer[1] = {0};
   readReg(REG_LM75B_CONF, buffer, 1);
-  return (eOSPolarityMode_t)((buffer[0] & 0x04) >> 2);
+  return (DFRobot_LM75B::eOSPolarityMode_t)((buffer[0] & 0x04) >> 2);
 }
-void DFRobot_LM75B::setOSPolarityMode(eOSPolarityMode_t epolarityMode) 
+void DFRobot_LM75B::setOSPolarityMode(DFRobot_LM75B::eOSPolarityMode_t epolarityMode) 
 {
-  sMode_t configuration;
+  DFRobot_LM75B::sMode_t configuration;
   uint8_t buffer[1] = {0};
   readReg(REG_LM75B_CONF, buffer, 1);
   memcpy(&configuration, buffer, sizeof(configuration));
   configuration.sOS_POL = epolarityMode;
   writeReg(REG_LM75B_CONF, &configuration, 1);
 }
-eQueueValue_t DFRobot_LM75B::getQueueValue() 
+DFRobot_LM75B::eQueueValue_t DFRobot_LM75B::getQueueValue() 
 {
   uint8_t buffer[1] = {0};
   readReg(REG_LM75B_CONF, buffer, 1);
   if ((buffer[0] & 0x18) == 0)
-    return (eQueueValue_t)1;
+    return (DFRobot_LM75B::eQueueValue_t)1;
   else
-    return (eQueueValue_t)((buffer[0] & 0x18) >> 2);
+    return (DFRobot_LM75B::eQueueValue_t)((buffer[0] & 0x18) >> 2);
 }
 
-void DFRobot_LM75B::setQueueValue(eQueueValue_t value) 
+void DFRobot_LM75B::setQueueValue(DFRobot_LM75B::eQueueValue_t value) 
 {
-  sMode_t configuration;
+  DFRobot_LM75B::sMode_t configuration;
   uint8_t buffer[1] = {0};
   readReg(REG_LM75B_CONF, buffer, 1);
   memcpy(&configuration, buffer, sizeof(configuration));
   configuration.sOS_F_QUE = value>>1;
   writeReg(REG_LM75B_CONF, &configuration, 1);
 }
-eOSMode_t DFRobot_LM75B::getOSMode() 
+DFRobot_LM75B::eOSMode_t DFRobot_LM75B::getOSMode() 
 {
   uint8_t buffer[1] = {0};
   readReg(REG_LM75B_CONF, buffer, 1);
-  return (eOSMode_t)((buffer[0] & 0x02) >> 1);
+  return (DFRobot_LM75B::eOSMode_t)((buffer[0] & 0x02) >> 1);
 }
-void DFRobot_LM75B::setOSMode(eOSMode_t osMode) 
+void DFRobot_LM75B::setOSMode(DFRobot_LM75B::eOSMode_t osMode) 
 {
-  sMode_t configuration;
+  DFRobot_LM75B::sMode_t configuration;
   uint8_t buffer[1] = {0};
   readReg(REG_LM75B_CONF, buffer, 1);
   //先读取此时conf寄存器里面的值
@@ -181,17 +181,17 @@ void DFRobot_LM75B::setOSMode(eOSMode_t osMode)
   writeReg(REG_LM75B_CONF, &configuration, 1);
 }
 
-eShutDownMode_t DFRobot_LM75B::getShutDownMode()
+DFRobot_LM75B::eShutDownMode_t DFRobot_LM75B::getShutDownMode()
 {
   uint8_t buffer[1] = {0};
   readReg(REG_LM75B_CONF, buffer, 1);
   //将寄存器内代表hutDown模式的位的数据提取出来
-  return (eShutDownMode_t)(buffer[0] & 0x01);
+  return (DFRobot_LM75B::eShutDownMode_t)(buffer[0] & 0x01);
 }
 
-void DFRobot_LM75B::setShutDownMode(eShutDownMode_t ShutDownMode) 
+void DFRobot_LM75B::setShutDownMode(DFRobot_LM75B::eShutDownMode_t ShutDownMode) 
 {
-  sMode_t configuration;
+  DFRobot_LM75B::sMode_t configuration;
   uint8_t buffer[1] = {0};
   readReg(REG_LM75B_CONF, buffer, 1);
   memcpy(&configuration, buffer, sizeof(configuration));

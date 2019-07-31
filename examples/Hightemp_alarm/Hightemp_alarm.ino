@@ -44,7 +44,7 @@ void setup(void) {
     eShutdown = 1 //<在此模式下，数据采集停止，但IIC通信不受影响，寄存器也可以正常读写>
     } eShutDownMode_t;
   */
-  lm75b.setShutDownMode(eNormal);
+  lm75b.setShutDownMode(lm75b.eNormal);
   /*!
     设置设置OS引脚的模式
     typedef enum {
@@ -52,7 +52,7 @@ void setup(void) {
     eInterrupt = 1 //<在此模式下，OS口输出采用中断模式,Once the OS output has been activated by crossing Tth(ots) and then reset, it can be activated again only when the Temp drops below the Thys>
     } eOSMode_t;
   */
-  lm75b.setOSMode(eComparator);
+  lm75b.setOSMode(lm75b.eComparator);
   /*!
         设置故障队列数,Fault queue is defined as the number of faults that must occur consecutively to activate
     the OS output
@@ -63,7 +63,7 @@ void setup(void) {
     eValue4 = 6
     } eQueueValue_t;
   */
-  lm75b.setQueueValue(eValue4);
+  lm75b.setQueueValue(lm75b.eValue4);
 }
 
 void loop(void) {

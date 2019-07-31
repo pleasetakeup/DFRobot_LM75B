@@ -30,6 +30,15 @@
 #define DBG(...)
 #endif
 
+
+class DFRobot_LM75B {
+
+  public:
+
+#define ERR_OK             0      //无错误
+#define ERR_DATA_BUS      -1      //数据总线错误
+#define ERR_IC_VERSION    -2      //芯片版本不匹配
+
 /*!
            The Configuration register (Conf) is a write/read register and contains an 8-bit
        non-complement data byte that is used to configure the device for different operation
@@ -94,15 +103,6 @@ typedef enum {
   eValue3 = 4,/**<在此模式下，故障队列数为 4>**/
   eValue4 = 6 /**<在此模式下，故障队列数为 6>**/
 } eQueueValue_t;
-class DFRobot_LM75B {
-
-  public:
-
-#define ERR_OK             0      //无错误
-#define ERR_DATA_BUS      -1      //数据总线错误
-#define ERR_IC_VERSION    -2      //芯片版本不匹配
-
-
     /**
        @brief 构造函数
        @param pWire I2C总线指针对象，构造设备，可传参数也可不传参数，默认Wire
@@ -167,43 +167,43 @@ class DFRobot_LM75B {
        @brief 获取故障队列的值.
        @return 返回故障队列的值.
     */
-    eQueueValue_t getQueueValue();
+    DFRobot_LM75B::eQueueValue_t getQueueValue();
     /**
        @brief 设置故障队列的值.
        @param eQueueValue_t类型的值，代表故障队列数
     */
-    void setQueueValue(eQueueValue_t value);
+    void setQueueValue(DFRobot_LM75B::eQueueValue_t value);
     /**
        @brief 得到芯片的工作模式的模式.
        @return 0或1 .
        @n 0：Normal(正常模式)
        @n 1：interrupt(关断模式)
     */
-    eShutDownMode_t getShutDownMode();
+    DFRobot_LM75B::eShutDownMode_t getShutDownMode();
     /**
        @brief 设置芯片的工作模式.
        @param eQueueValue_t类型的值，代表芯片工作模式
     */
-    void setShutDownMode(eShutDownMode_t ShutDownMode);
+    void setShutDownMode(DFRobot_LM75B::eShutDownMode_t ShutDownMode);
     /**
        @brief 得到OS引脚的active状态是高电平还是低电平.
        @return 0或1 .
        @n 0：LOW(active LOW)
        @n 1：HIGH(active HIGH)
     */
-    eOSPolarityMode_t getOSPolarityMode();
+    DFRobot_LM75B::eOSPolarityMode_t getOSPolarityMode();
     /**
        @brief 设置OS引脚的active状态是高电平还是低电平..
        @param eOSPolarityMode_t类型的值，代表OS引脚的极性
     */
-    void setOSPolarityMode(eOSPolarityMode_t polarityMode);
+    void setOSPolarityMode(DFRobot_LM75B::eOSPolarityMode_t polarityMode);
     /**
        @brief 得到OS引脚的工作模式.
        @return 0或1 .
        @n 0：OS comparator(比较器模式)
        @n 1：OS interrupt(中断模式)
     */
-    eOSMode_t getOSMode();
+    DFRobot_LM75B::eOSMode_t getOSMode();
     /**
        @brief 设置OS引脚的工作模式..
        @param eOSMode_t类型的值，代表OS引脚的工作模式.
