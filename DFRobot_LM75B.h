@@ -68,7 +68,7 @@ typedef struct {
      register Conf. 
      */
 typedef enum {
-  eNormal = 0, /**<在此模式下，数据采集周期为100ms,其中10ms用于数据转换，需要电流为300mA，另外90ms处于idle状态，需要电流为10uA>**/
+  eNormal = 0, /**<在此模式下，数据采集周期为100ms,其中10ms用于数据转换，需要电流为200mA，另外90ms处于idle状态，需要电流为10uA>**/
   eShutdown = 1 /**<在此模式下，数据采集停止，但IIC通信不受影响，寄存器也可以正常读写>**/
 } eShutDownMode_t;
   /*!
@@ -89,8 +89,8 @@ typedef enum {
      (OS_POL) of register Conf
    */
 typedef enum {
-  eActive_LOW = 0,/**<在此模式下，OS的活跃状态为低电平>**/
-  eActive_HIGH = 1/**<在此模式下，OS active HIGH>**/
+  eActive_LOW = 0,  /**<在此模式下，OS的active状态为低电平>**/
+  eActive_HIGH = 1  /**<在此模式下，OS的active状态为高电平>**/
 } eOSPolarityMode_t;
    /*!
           It is provided to avoid false tripping due to noise.fault queue is also defined as the number of

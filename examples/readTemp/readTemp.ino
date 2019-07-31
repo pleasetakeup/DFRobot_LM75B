@@ -57,14 +57,25 @@ void setup(void) {
   */
   Serial.print(lm75b.getOSMode());
   Serial.println(" (0:比较器模式/1：中断模式)");
-  Serial.print("OS极性: ");
-  /**
-       active：是OS在活跃时的状态，OS默认在正常时为高电平，环境温度超过Tos就会变成活跃状态，默认为低电平.
+  /*
+      The OS output active state can be selected as HIGH or LOW by programming bit B2
+      (OS_POL) of register Conf
+       typedef enum {
+       eActive_LOW = 0,  <在此模式下，OS的active状态为低电平>
+       eActive_HIGH = 1  <在此模式下，OS的active状态为高电平>
+       } eOSPolarityMode_t;
+     当温度值大于阈值温度，则OS输出为active状态，active状态默认为低电平。
   */
+  Serial.print("OS极性: ");
   Serial.print(lm75b.getOSPolarityMode());
   Serial.println(" (0:active状态为低电平/1：active状态为高电平)");
-  //只有满足故障队列数，OS才会产生中断
-  //可防止温度测量过程中由于干扰而造成中断.
+  /*
+    只有满足故障队列数，OS才会产生中断
+    故障队列数：温度寄存器存储的温度值在每次转换完成之后，会自动与阈值温度和滞后温度相比较。
+    当选择eValue1，只需满足一次温度值大于阈值温度。若满足则OS输出为active状态；
+    当选择eValue2，需满足二次温度值大于阈值温度。若满足则OS输出为active状态。
+    以此类推。
+   */
   Serial.print("OS故障队列: ");
   Serial.println(lm75b.getQueueValue());
   //用户设定值，环境温度超出此值时引起OS状态改变

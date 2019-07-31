@@ -39,6 +39,10 @@ void setup(void) {
   lm75b.setThyst(/*滞后温度=*/30.5);
   /*!
     设置故障队列数,只有满足故障队列数，OS才会产生中断
+    故障队列数：温度寄存器存储的温度值在每次转换完成之后，会自动与阈值温度和滞后温度相比较。
+    当选择eValue1，只需满足一次温度值大于阈值温度。若满足则OS输出为active(见下)状态；
+    当选择eValue2，需满足二次温度值大于阈值温度。若满足则OS输出为active状态。
+    以此类推。
     typedef enum {
     eValue1 = 1,
     eValue2 = 2,
@@ -50,7 +54,14 @@ void setup(void) {
 }
 
 void loop(void) {
-
+  /*
+         默认设置 device operation mode selection：(0*)normal
+                  OS operation mode selection    ：(0*)OS comparator
+                  OS polarity selection          ：(0*)OS active LOW
+                  OS fault queue programming     ：(00*)queue value = 1
+                  reserved                       ： 000*
+  */
+  //因为 polarity 选择的是active LOW模式，所以当温度值大于阈值温度，OS输出为低电平
   if (digitalRead(OS) == 0) {
     Serial.println("环境温度超过阈值温度，请降温");
   }

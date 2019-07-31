@@ -2,7 +2,7 @@
    @file Hightemp_alarm.ino
    @brief 高温报警.
    @n 实验现象：在开始之前我们会设置阈值温度Tos和滞后温度Thyst，芯片工作状态，
-   @n OS引脚输出模式，故障队列。当温度超过这个值时串口就会有信息提示，或者也可
+   @n OS引脚输出模式，故障队列。当温度超过阈值温度Tos时串口就会有信息提示，或者也可
    @n 以在arduino上加一个蜂鸣器来提醒温度超过阈值
 
    @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
@@ -45,6 +45,16 @@ void setup(void) {
     } eShutDownMode_t;
   */
   lm75b.setShutDownMode(lm75b.eNormal);
+   /*!
+      The OS output active state can be selected as HIGH or LOW by programming bit B2
+      (OS_POL) of register Conf
+       typedef enum {
+       eActive_LOW = 0,  <在此模式下，OS的active状态为低电平>
+       eActive_HIGH = 1  <在此模式下，OS的active状态为高电平>
+       } eOSPolarityMode_t;
+     当温度值大于阈值温度，若满足则OS输出为active状态，active状态默认为低电平。
+  */
+  lm75b.setOSPolarityMode(lm75b.eActive_LOW);
   /*!
     设置设置OS引脚的模式
     typedef enum {
@@ -68,6 +78,14 @@ void setup(void) {
 
 void loop(void) {
   //检测OS的状态来判断温度是否超过设定值
+    /*!
+         默认设置 device operation mode selection：(0*)normal
+                  OS operation mode selection    ：(0*)OS comparator
+                  OS polarity selection          ：(0*)OS active LOW
+                  OS fault queue programming     ：(00*)queue value = 1
+                  reserved                       ： 000*
+  */
+  //因为 polarity 选择的是active LOW模式，所以当温度值大于阈值温度，OS输出为低电平
   while (digitalRead(OS) == 0) {
     Serial.println("环境温度超过阈值温度，请注意");
     delay(5000);
