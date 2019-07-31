@@ -68,7 +68,7 @@ typedef struct {
      register Conf. 
      */
 typedef enum {
-  eNormal = 0, /**<在此模式下，数据采集周期为100ms,其中10ms用于数据转换，需要电流为300mA，另外90ms处于idle状态，需要电流为10uA>**/
+  eNormal = 0, /**<在此模式下，数据采集周期为100ms,其中10ms用于数据转换，需要电流为200mA，另外90ms处于idle状态，需要电流为10uA>**/
   eShutdown = 1 /**<在此模式下，数据采集停止，但IIC通信不受影响，寄存器也可以正常读写>**/
 } eShutDownMode_t;
   /*!
