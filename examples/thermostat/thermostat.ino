@@ -30,11 +30,11 @@ void setup(void) {
        @param 温度值，单位是摄氏度，需满足Tos%0.5 == 0 ；
        @n 范围是 -55°C 到 +125°C
   */
-  lm75b.setTos(/*阈值温度=*/35);
+  lm75b.setTos(/*阈值温度=*/33);
   /**
        @brief 设置滞后温度
        @param 温度值，单位是摄氏度，需满足Thyst%0.5 == 0 ；
-       @n 范围是 -55°C 到 +125°C,Thyst 必须小于 Tos 的值.
+       @n 范围是 -55°C 到 +125°C,Thyst 必须小于等于 Tos 的值.
   */
   lm75b.setThyst(/*滞后温度=*/30.5);
   /*!

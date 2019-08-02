@@ -125,29 +125,34 @@ typedef enum {
       _pWire = pWire;
       _address = address;
     };
+    
     /**
        @brief 初始化函数
        @return 返回0表示初始化成功，返回其他值表示初始化失败，返回错误码
     */
     int begin();
+    
     /**
        @brief 获取温度值.
        @return 返回温度值，单位是摄氏度.
        @n 范围是 -55°C 到 +125°C
     */
     float getTempC();
+    
     /**
        @brief 获取阈值温度.
        @param 返回温度值，单位是摄氏度.
        @n 范围是 -55°C 到 +125°C.
     */
     float getTosC(void );
+    
     /**
-       @brief 获取滞后温度.
+       @brief 获取滞后温度(类似于自定义的温度范围的最小值).
        @param 返回温度值，单位是摄氏度.
        @n 范围是 -55°C 到 +125°C.
     */
     float getThystC();
+    
     /**
        @brief 设置阈值温度
        @param 温度值，单位是摄氏度，需满足Tos% 0.5 == 0 ；
@@ -156,10 +161,11 @@ typedef enum {
     //uint8_t getconfReg();
 
     void setTos(float Tos);
+    
     /**
-       @brief 设置滞后温度
+       @brief 设置滞后温度(类似于自定义的温度范围的最小值).
        @param 温度值，单位是摄氏度，需满足Thyst% 0.5 == 0 ；
-       @n 范围是 -55°C 到 +125°C,Thyst 必须小于 Tos 的值.
+       @n 范围是 -55°C 到 +125°C,Thyst 必须小于等于 Tos 的值.
     */
     void setThyst(float Thyst);
 
@@ -168,11 +174,13 @@ typedef enum {
        @return 返回故障队列的值.
     */
     DFRobot_LM75B::eQueueValue_t getQueueValue();
+    
     /**
        @brief 设置故障队列的值.
        @param eQueueValue_t类型的值，代表故障队列数
     */
     void setQueueValue(DFRobot_LM75B::eQueueValue_t value);
+    
     /**
        @brief 得到芯片的工作模式的模式.
        @return 0或1 .
@@ -180,11 +188,13 @@ typedef enum {
        @n 1：interrupt(关断模式)
     */
     DFRobot_LM75B::eShutDownMode_t getShutDownMode();
+    
     /**
        @brief 设置芯片的工作模式.
        @param eQueueValue_t类型的值，代表芯片工作模式
     */
     void setShutDownMode(DFRobot_LM75B::eShutDownMode_t ShutDownMode);
+    
     /**
        @brief 得到OS引脚的active状态是高电平还是低电平.
        @return 0或1 .
@@ -197,6 +207,7 @@ typedef enum {
        @param eOSPolarityMode_t类型的值，代表OS引脚的极性
     */
     void setOSPolarityMode(DFRobot_LM75B::eOSPolarityMode_t polarityMode);
+    
     /**
        @brief 得到OS引脚的工作模式.
        @return 0或1 .
@@ -204,6 +215,7 @@ typedef enum {
        @n 1：OS interrupt(中断模式)
     */
     DFRobot_LM75B::eOSMode_t getOSMode();
+    
     /**
        @brief 设置OS引脚的工作模式..
        @param eOSMode_t类型的值，代表OS引脚的工作模式.
@@ -211,6 +223,7 @@ typedef enum {
     void setOSMode(eOSMode_t OSMode);
 
   private:
+  
     /**
        @brief 通过IIC总线写入寄存器值
        @param reg  寄存器地址 8bits

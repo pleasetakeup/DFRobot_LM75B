@@ -25,18 +25,22 @@ void setup(void) {
     delay(1000);
   }
   pinMode(OS, INPUT);
+  
   /**
        @brief 设置阈值温度
        @param 温度值，单位是摄氏度，需满足Tos%0.5 == 0 ；
        @n 范围是 -55°C 到 +125°C
   */
   lm75b.setTos(/*阈值温度=*/33);
+  
   /**
        @brief 设置滞后温度
        @param 温度值，单位是摄氏度，需满足Thyst%0.5 == 0 ；
-       @n 范围是 -55°C 到 +125°C,Thyst 必须小于 Tos 的值.
+       @n 范围是 -55°C 到 +125°C,Thyst 必须小于等于 Tos 的值.
   */
-  lm75b.setThyst(/*滞后温度=*/32.5);
+  //将滞后温度和阈值温度设置相同，那么就在超过阈值温度时OS的状态和低于阈值温度时的状态不一样，就可以做到超温检测.
+  lm75b.setThyst(/*滞后温度=*/33);
+  
   /*!
     设置芯片工作模式
     typedef enum {
@@ -45,6 +49,7 @@ void setup(void) {
     } eShutDownMode_t;
   */
   lm75b.setShutDownMode(lm75b.eNormal);
+  
    /*!
       The OS output active state can be selected as HIGH or LOW by programming bit B2
       (OS_POL) of register Conf
@@ -55,6 +60,7 @@ void setup(void) {
      当温度值大于阈值温度，若满足则OS输出为active状态，active状态默认为低电平。
   */
   lm75b.setOSPolarityMode(lm75b.eActive_LOW);
+  
   /*!
     设置设置OS引脚的模式
     typedef enum {
@@ -65,11 +71,12 @@ void setup(void) {
     } eOSMode_t;
   */
   lm75b.setOSMode(lm75b.eComparator);
+  
   /*!
     只有满足故障队列数，OS才会产生中断
     故障队列数：温度寄存器存储的温度值在每次转换完成之后，会自动与阈值温度和滞后温度相比较。
     当选择eValue1，只需满足一次温度值大于阈值温度,若满足则OS输出为active状态；
-    当选择eValue2，需满足二次温度值大于阈值温度,若满足则OS输出为active状态。
+    当选择eValue2，需满足连续二次温度值大于阈值温度,若满足则OS输出为active状态。
     以此类推。
     the OS output
     typedef enum {
