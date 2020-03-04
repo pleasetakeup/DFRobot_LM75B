@@ -1,5 +1,4 @@
-<<<<<<< HEAD
+
 dfasdfdsfasdfadfasdfasdfas
-=======
-dfasdfdsfasdfadfasdfasdfas
->>>>>>> test
+
+
