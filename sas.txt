@@ -1,0 +1,374 @@
+#include "DFRobot_Gesture.h"
+String DFRobot_Gesture::getPoint(){
+	
+}
+DFRobot_Gesture::eGesture_t DFRobot_Gesture::twoFingers(uint8_t release,uint8_t count){
+  uint8_t t = 0;
+  uint8_t i = 0;
+  uint8_t num1 = 0;
+  uint8_t record = 0;
+	
+  eGesture_t ges1 = NONE;
+	
+  if(release == 0){
+	 for(t=0;t<count;t++){
+		if(pointMge.x[t]>touchge[t].pointx[point-1] + 40) record = 1;//修改
+		if(pointMge.y[t]>touchge[t].pointy[point-1] + 40) record = 1;//修改
+		if(pointMge.x[t]<touchge[t].pointx[point-1] - 40) record = 1;//修改
+		if(pointMge.y[t]<touchge[t].pointy[point-1] - 40) record = 1;//修改
+	}
+	if(record == 1){
+	  for(i=0;i<count;i++){
+		touchge[i].pointx[point] = pointMge.x[i];//修改
+	    touchge[i].pointy[point] = pointMge.y[i];//修改
+	  }
+		point += 1;
+	}
+ }
+	if(release == 1){
+     switch(point){
+		   case 1: {
+			    uint8_t i;
+				for(i=0;i<count;i++){
+                   touchge[i].pointx[1] = touchgeT[i].pointx[0];
+	               touchge[i].pointy[1] = touchgeT[i].pointy[0];
+                   touchge[i].pointx[2] = touchgeT[i].pointx[0];
+	               touchge[i].pointy[2] = touchgeT[i].pointy[0];
+				 }
+				 point = 3;
+				 
+			 };break;
+			 case 2:{
+				 uint8_t i;
+				 for(i=0;i<count;i++){			 
+			       touchge[i].pointx[2] = touchgeT[i].pointx[0];
+	               touchge[i].pointy[2] = touchgeT[i].pointy[0];
+				 }
+				 point = 3;
+			 };break;
+			 
+			 default : break;
+		 }
+		 
+	 }
+
+	for(num1=0;num1<count; num1++){
+	   touchgeT[num1].pointx[0] =  pointMge.x[num1];//修改
+	   touchgeT[num1].pointy[0] =  pointMge.y[num1];//修改
+	}
+	if(point == 3) {
+	  switch(count){
+	  	case 1:  {
+			        ges1 = getGestureOne(pointe(1));
+			    };break;
+	  	case 2: 
+				{
+					ges1 = getGestureTwo(pointe(1),pointe(2));
+			
+				};break;
+	  	case 3: {
+			   	    ges1 = getGestureThree(pointe(1),pointe(2),pointe(3));
+
+			}break;
+	  	case 4: {ges1 = getGestureFour(pointe(1),pointe(2),pointe(3),pointe(4));};
+			break;
+	  	case 5: {ges1 = getGestureFive(pointe(1),pointe(2),pointe(3),pointe(4),pointe(5));};break;
+	  	default :ges1 = NONE;break;
+	  }
+    lastGesture = ges1;
+    timer = millis();
+	if(ges1 != NONE){
+   	   Serial.println(ges1);
+	}
+	point = 0;
+}
+	return ges1;
+}
+
+
+DFRobot_Gesture::eGesture_t DFRobot_Gesture::getGestureOne(eDir_t pointOne){
+  if(pointOne == CLICK && lastGesture== CLICK && millis()-timer < 1000){
+	 return DOUBLECLICK;//待测试
+	}
+  else if(pointOne == CLICK && lastGesture != CLICK && timer2 <= 1000){
+	 return SCLICK;
+  }
+  else if(pointOne == CLICK && timer2 >= 2000){
+	  
+	 return LONGPRESSDE;//待测试
+  }
+  else if(pointOne == UP){
+	 return SUP;
+	}
+  else if(pointOne == DOWN){
+	 return SDOWN;
+	}
+  else if(pointOne == LETTUP || pointOne == LEFTDOWN||pointOne ==LEFT){
+	 return SLEFT;
+	}
+  else if(pointOne == RIGHT || pointOne == RIGHTUP||pointOne ==RIGHTDOWN){
+	 return SRIGHT;
+	}
+}
+uint8_t DFRobot_Gesture::bfDistance(){
+  uint16_t olddis_x = touchge[1].pointx[0] > touchge[0].pointx[0] ? (touchge[1].pointx[0]- touchge[0].pointx[0]) :(touchge[0].pointx[0] - touchge[1].pointx[0]);
+  uint16_t olddis_y = touchge[1].pointy[0] > touchge[0].pointy[0] ? (touchge[1].pointy[0]- touchge[0].pointy[0]) :(touchge[0].pointy[0] - touchge[1].pointy[0]);
+  uint16_t dis_x = touchge[1].pointx[2] > touchge[0].pointx[2] ? (touchge[1].pointx[2]- touchge[0].pointx[2]) :(touchge[0].pointx[2] - touchge[1].pointx[2]);
+  uint16_t dis_y = touchge[1].pointy[2] > touchge[0].pointy[2] ? (touchge[1].pointy[2]- touchge[0].pointy[2]) :(touchge[0].pointy[2] - touchge[1].pointy[2]);
+  uint16_t d2 = sqrtf((touchge[1].pointx[2] - touchge[0].pointx[2]) * (touchge[1].pointx[2] - touchge[0].pointx[2]) +(touchge[1].pointy[2]-touchge[0].pointy[2]) * (touchge[1].pointy[2]-touchge[0].pointy[2]));
+  distance = sqrtf((touchge[1].pointx[0] - touchge[0].pointx[0]) * (touchge[1].pointx[0] - touchge[0].pointx[0]) +(touchge[1].pointy[0]-touchge[0].pointy[0]) * (touchge[1].pointy[0]-touchge[0].pointy[0]));
+
+
+  change_x = dis_x > olddis_x ?(dis_x - olddis_x):(olddis_x - dis_x);
+  change_y = dis_y > olddis_y ?(dis_y - olddis_y):(olddis_y - dis_y);
+  if(d2 > distance) {
+    change = d2-distance;
+  	return 1;
+  }
+  else{
+	change = distance - d2;
+	return 0;
+  }
+}
+
+DFRobot_Gesture::eDir_t DFRobot_Gesture::pointe(int point1){
+	uint16_t x1,x2,x3 ;
+	uint16_t y1,y2,y3 ;
+	eDirection_t linex ;
+	eDirection_t liney ;
+	x1 = touchge[point1-1].pointx[0];
+	y1 = touchge[point1-1].pointy[0];
+	x2 = touchge[point1-1].pointx[1];
+	y2 = touchge[point1-1].pointy[1];
+	x3 = touchge[point1-1].pointx[2];
+	y3 = touchge[point1-1].pointy[2];
+
+	linex = directionX(x1,x2,x3);
+	liney = directionY(y1,y2,y3);
+	if(linex == NOCHANGE && liney == NOCHANGE){
+	   return CLICK;
+	}
+	else if(linex == NOCHANGE && liney == UPL){
+	   return UP;
+	}
+	else if(linex == NOCHANGE && liney == DOWNL){
+	   return  DOWN;
+	}
+	else if(linex == LEFTL && liney == NOCHANGE){
+	   return  LEFT;
+	}
+	else if(linex == LEFTL && liney == UPL){
+	   return LETTUP;
+	}
+	else if(linex == LEFTL && liney == DOWNL){
+	   return LETTUP;
+	}
+	else if(linex == RIGHTL && liney == NOCHANGE){
+	   return RIGHT;
+	}
+	else if(linex == RIGHTL && liney == UPL){
+	   return RIGHTUP;
+	}
+	else if(linex == RIGHTL && liney == DOWNL){
+	   return RIGHTDOWN;
+	}
+	else{
+	   return UNNONE;
+	}
+	
+}
+
+DFRobot_Gesture::eDirection_t DFRobot_Gesture::directionX(uint16_t x1,uint16_t x2,uint16_t x3){
+  uint16_t average = (x1 + x2 + x3)/3;
+  uint16_t min1 = minp(x1,x2,x3);
+  uint16_t max1 = maxp(x1,x2,x3);
+	
+  if((average < min1+10) && (average > max1-10) ){
+	   return NOCHANGE;
+	}
+  else if(x3 >= x2 && x2 > x1){
+	   return LEFTL;
+	}
+  else if(x3 <= x2 && x2 < x1){
+	   return RIGHTL;
+	}
+	else{
+	   return UNIDENTIFIABLE;
+	}
+}
+
+DFRobot_Gesture::eDirection_t DFRobot_Gesture::directionY(uint16_t y1,uint16_t y2,uint16_t y3){
+  uint16_t average = (y1 + y2 + y3)/3;
+  uint16_t min1 = minp(y1,y2,y3);
+  uint16_t max1 = maxp(y1,y2,y3);
+
+  if((average < min1+10)  && (average > max1-10) ){
+	   return NOCHANGE;
+	}
+  else if((y3 >= y2) && (y2 > y1)){
+	   return DOWNL;
+	}
+  else if((y3 <= y2) && (y2 < y1)){
+	   return UPL;
+	}
+	else{
+	   return UNIDENTIFIABLE;
+	}
+}
+
+uint16_t DFRobot_Gesture::maxp(uint16_t num1,uint16_t num2,uint16_t num3){
+  uint16_t max ;
+  max = num1>num2 ? num1 :num2;
+  return max>num3 ? max :num3;
+}
+uint16_t DFRobot_Gesture::minp(uint16_t num1,uint16_t num2,uint16_t num3){
+  uint16_t min ;
+  min = num1<num2 ? num1 :num2;
+  return min<num3 ? min :num3;
+}
+
+
+
+DFRobot_Gesture::eGesture_t DFRobot_Gesture::getGestureTwo(eDir_t pointOne,eDir_t pointTwo){
+  uint8_t dir = bfDistance();
+  if(pointOne == CLICK && pointTwo == CLICK && change < 20){
+	   return DCLICK;
+	 }
+	else if((pointOne == LEFT || pointOne == LETTUP || pointOne == LEFTDOWN) && (pointTwo == LEFT || pointTwo == LETTUP || pointTwo == LEFTDOWN)){
+	   return DLEFTGLIDE;
+	}
+	else if((pointOne == RIGHT || pointOne == RIGHTUP || pointOne == RIGHTDOWN) && (pointTwo == RIGHT || pointTwo == RIGHTUP || pointTwo == RIGHTDOWN)){
+	   return DRIGHTGLIDE;
+	}
+	else if(pointOne == DOWN && pointTwo == DOWN){
+	   return DDOWNGLIDE;
+	}
+	else if(pointOne == UP && pointTwo == UP){
+	   return DUPGLIDE;
+	}
+	else if(change_x>40 &&change_y >40 && change<50){
+	   return DROTATE ;
+	}
+	else if(distance > 200 && change > 100 && dir == 0){
+	  return SHRINK;
+	}
+	else if( change > 100 && dir == 1){
+	  return MAGNIFY;
+	}
+	else{
+	  return NONE;
+	
+	}
+}
+DFRobot_Gesture::eGesture_t DFRobot_Gesture::getGestureThree(eDir_t pointOne,eDir_t pointTwo,eDir_t pointThree){
+	
+  if(pointOne == CLICK && pointTwo == CLICK && pointThree==CLICK){
+	   return TCLICK;
+	}
+	else if(pointOne == UP && pointTwo == UP && pointThree==UP){
+	   return TUPGLIDE;
+	}
+	else if(pointOne == DOWN && pointTwo == DOWN && pointThree==DOWN){
+	   return TDOWNGLIDE;
+	}
+	else if((pointOne == LEFT || pointOne == LETTUP || pointOne == LEFTDOWN) && (pointTwo == LEFT || pointTwo == LETTUP || pointTwo == LEFTDOWN)&&(pointThree == LEFT || pointThree == LETTUP || pointThree == LEFTDOWN)){
+	   return TLEFTGLIDE;
+	}
+	else if((pointOne == RIGHT || pointOne == RIGHTUP || pointOne == RIGHTDOWN) && (pointTwo == RIGHT || pointTwo == RIGHTUP || pointTwo == RIGHTDOWN)&&(pointThree == RIGHT || pointThree == RIGHTUP || pointThree == RIGHTDOWN)){
+	   return TRIGHTGLIDE;
+	}
+	else{
+	  return NONE;
+	}
+}
+DFRobot_Gesture::eGesture_t DFRobot_Gesture::getGestureFour(eDir_t pointOne,eDir_t pointTwo,eDir_t pointThree,eDir_t pointFour){
+  if(pointOne == CLICK && pointTwo == CLICK && pointThree==CLICK && pointFour==CLICK){
+	   return QCLICK;
+	}
+	else{
+	   return NONE;
+	}
+
+}
+DFRobot_Gesture::eGesture_t DFRobot_Gesture::getGestureFive(eDir_t pointOne,eDir_t pointTwo,eDir_t pointThree,eDir_t pointFour,eDir_t pointFive){
+    if(pointOne == CLICK && pointTwo == CLICK && pointThree==CLICK && pointFour==CLICK && pointFive==CLICK){
+			return PCLICK;
+	}
+	else{
+	   return NONE;
+	}
+}
+
+DFRobot_Gesture::eGesture_t DFRobot_Gesture::gesture(){
+	uint8_t t;
+	eGesture_t gesture;
+	static int end = 0;
+	uint8_t number =stringToPoint(getPoint());
+	uint8_t nump = number;
+	
+	if(lastPN > number){
+	  release = 1;
+	  number = lastPN;
+	  timer2 = millis() - timer1;
+	}
+	else if(number > lastPN){
+	  point = 0;
+	}
+	else{
+	  lastPN = number;
+	}
+	if(point == 0){
+	  for(t=0;t<number;t++){
+	    touchge[t].pointx[0] =pointMge.x[t];//修改
+	    touchge[t].pointy[0] =pointMge.y[t];//修改
+	  }
+	  point = 1;
+	  timer1 = millis();
+	}
+	if(number != 0 && end == 0){
+	     gesture = twoFingers(release,number);
+    }
+	if(release == 1)  end = 10000;  //待测试
+	release = 0;
+	lastPN = nump;
+	if(end > 0) end--; 	
+	if(gesture != NONE) {
+		return gesture;
+	}
+}
+uint8_t DFRobot_Gesture::stringToPoint(String str)
+{
+  char pin[4];
+  uint8_t nowi = 0;
+  uint8_t n = 0;
+  uint8_t b = 0;
+  for (uint8_t i = 0; i < str.length(); i++) {
+
+    if (str[i] == ',' || str[i] == ' ')
+    {
+      n = 0;
+
+      if (nowi == 1) pointMge.x[b] = atoi(pin);
+      if (nowi == 2) {
+        pointMge.y[b] = atoi(pin);
+        b += 1;
+      }
+      nowi++;
+      if (nowi == 5)nowi = 0;
+      memset(pin, '\0', 4);
+      continue;
+    }
+    pin[n] = str[i];
+    n++;
+  }
+  if(b == 1 && pointMge.x[0] == 0 && pointMge.y[0] == 0){
+	  return 0;
+  }
+  else if(b !=1){
+	  return b;
+  }
+  else{
+	  return 1;
+  }
+  
+}
